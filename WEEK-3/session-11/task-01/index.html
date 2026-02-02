@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aligned Semantic Layouts</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      color: #111827;
+      background: #f3f4f6;
+    }
+    h1, h2 {
+      margin-top: 0;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+    header, footer {
+      background: #1f2937;
+      color: white;
+      text-align: center;
+    }
+    footer {
+      padding: 1rem;
+    }
+    .grid-layout header {
+      padding: 1.5rem;
+    }
+    .grid-layout main {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .grid-layout article {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+    .sidebar-layout {
+      display: flex;
+      min-height: 100vh;
+      margin-top: 3rem;
+    }
+    aside {
+      width: 240px;
+      background: #111827;
+      color: white;
+      padding: 2rem 1rem;
+    }
+    aside h2 {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+    aside nav a {
+      display: block;
+      padding: 0.6rem 1rem;
+      margin-bottom: 0.5rem;
+      text-decoration: none;
+      color: #d1d5db;
+      border-radius: 4px;
+    }
+    aside nav a:hover {
+      background: #1f2937;
+      color: white;
+    }
+    .sidebar-layout main {
+      flex: 1;
+      background: #ffffff;
+      padding: 2rem;
+    }
+    .sidebar-layout header {
+      background: none;
+      color: #111827;
+      text-align: left;
+      padding: 0;
+      margin-bottom: 1.5rem;
+    }
+    .sidebar-layout article {
+      max-width: 800px;
+      background: #f9fafb;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+  </style>
+</head>
+<body>
+<section class="grid-layout">
+  <header>
+    <h1>Grid-Based Semantic Layout</h1>
+  </header>
+  <main class="container">
+    <article>
+      <h2>Module One</h2>
+      <p>Responsive grid item using semantic tags.</p>
+    </article>
+    <article>
+      <h2>Module Two</h2>
+      <p>Aligned spacing and consistent structure.</p>
+    </article>
+    <article>
+      <h2>Module Three</h2>
+      <p>Automatically adapts to screen size.</p>
+    </article>
+  </main>
+</section>
+<section class="sidebar-layout">
+  <aside>
+    <nav>
+      <h2>Navigation</h2>
+      <a href="#">Home</a>
+      <a href="#">Dashboard</a>
+      <a href="#">Reports</a>
+      <a href="#">Settings</a>
+    </nav>
+  </aside>
+  <main>
+    <header>
+      <h1>Fixed Sidebar Layout</h1>
+    </header>
+    <section>
+      <article>
+        <h2>Main Content Area</h2>
+        <p>
+          This layout uses a fixed-width sidebar and a flexible main content
+          region. Semantic elements ensure accessibility and structure.
+        </p>
+      </article>
+    </section>
+  </main>
+</section>
+<footer>
+  <p>© 2026 Semantic Layout Demo</p>
+</footer>
+</body>
+</html>
