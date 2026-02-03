@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tantraz Registration Form</title>
+</head>
+<body>
+    <center>
+<h2><b>Tantraz Registration Form</b></h2>
+<p>School of Computing – College Event</p>
+<form>
+  <label for="name"><b>Full Name:</b></label><br>
+  <input type="text" id="name" name="fullname" required>
+  <br><br>
+  <label for="email"><b>Email Address:</b></label><br>
+  <input type="email" id="email" name="email" required>
+  <br><br>
+  <label for="category"><b>Participation Category:</b></label><br>
+  <select id="category" name="category" required>
+    <option value="">-- Select Category --</option>
+    <option value="individual">Individual</option>
+    <option value="team">Team</option>
+    <option value="audience">Audience</option>
+  </select>
+  <br><br>
+  <b>T-Shirt Size:</b><br>
+  <input type="radio" name="size" value="S"> S<br>
+  <input type="radio" name="size" value="M"> M<br>
+  <input type="radio" name="size" value="L"> L<br>
+  <input type="radio" name="size" value="XL"> XL
+  <br><br>
+  <b>Technical Interests:</b><br>
+  <input type="checkbox" name="interest" value="AI"> Artificial Intelligence<br>
+  <input type="checkbox" name="interest" value="Web"> Web Development<br>
+  <input type="checkbox" name="interest" value="Cloud"> Cloud Computing
+  <br><br>
+  <label for="expectations"><b>Expectations / Suggestions:</b></label><br>
+  <textarea id="expectations" name="expectations" rows="4" cols="40"></textarea>
+  <br><br>
+  <button type="submit">Register</button>
+</form>
+</center>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Authentication</title>
+  <script>
+    function toggleForm(type) {
+      document.getElementById("signin").style.display =
+        type === "signin" ? "block" : "none";
+      document.getElementById("signup").style.display =
+        type === "signup" ? "block" : "none";
+    }
+  </script>
+</head>
+<body>
+<h2><b>User Authentication</b></h2>
+<b>
+<input type="radio" name="auth" checked onclick="toggleForm('signin')">
+Sign In
+<input type="radio" name="auth" onclick="toggleForm('signup')">
+Sign Up
+</b>
+<br><br><hr><br>
+<div id="signin">
+<h3><b>Sign In</b></h3>
+<form aria-label="Sign in form">
+  Email<br>
+  <input type="email" aria-label="Email address" required>
+  <br><br>
+  Password<br>
+  <input type="password" aria-label="Password" required>
+  <br><br>
+  <button>Sign In</button>
+</form>
+</div>
+<div id="signup" style="display:none;">
+<h3><b>Sign Up</b></h3>
+<form aria-label="Sign up form">
+  Name<br>
+  <input type="text" aria-label="Full name" required>
+  <br><br>
+  Email<br>
+  <input type="email" aria-label="Email address" required>
+  <br><br>
+  Password<br>
+  <input type="password" aria-label="Create password" required>
+  <br><br>
+  <button>Sign Up</button>
+</form>
+</div>
+</body>
+</html>
