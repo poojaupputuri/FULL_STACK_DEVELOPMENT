@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Party Welcome List</title>
+</head>
+<body>
+  <h1>Party Welcome List</h1>
+  <ul id="partyList"></ul>
+  <script>
+    const collegeFriends = ["Alex", "Jordan", "Sam"];
+    const workFriends = ["Chris", "Taylor", "Morgan"];
+    const partyList = ["Me", ...collegeFriends, ...workFriends];
+    const welcomeGuests = (host, ...guests) => {
+      const list = document.getElementById("partyList");
+      guests.forEach(guest => {
+        const li = document.createElement("li");
+        li.textContent = `Welcome ${guest}! Hosted by ${host}`;
+        list.appendChild(li);
+      });
+    };
+    welcomeGuests(partyList[0], ...partyList.slice(1));
+  </script>
+</body>
+</html>

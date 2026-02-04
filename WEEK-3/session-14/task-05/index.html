@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pizza Order Promise</title>
+</head>
+<body>
+  <h1>Pizza Ordering System</h1>
+  <button onclick="orderPizza()">Order Pizza</button>
+  <p id="status"></p>
+  <script>
+    const pizzaPromise = () => {
+      return new Promise((resolve, reject) => {
+        const isAvailable = Math.random() > 0.5;
+        setTimeout(() => {
+          if (isAvailable) {
+            resolve("🍕 Pizza is ready! Enjoy your meal.");
+          } else {
+            reject("❌ Sorry, pizza is unavailable.");
+          }
+        }, 2000);
+      });
+    };
+    const orderPizza = () => {
+      document.getElementById("status").textContent = "⏳ Ordering pizza...";
+      pizzaPromise()
+        .then(message => {
+          document.getElementById("status").textContent = message;
+        })
+        .catch(error => {
+          document.getElementById("status").textContent = error;
+        });
+    };
+  </script>
+</body>
+</html>
