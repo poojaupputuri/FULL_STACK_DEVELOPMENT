@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mouse Quadrant Monitor</title>
+</head>
+<body>
+  <script>
+    document.body.style.margin = "0";
+    document.body.style.height = "100vh";
+    document.addEventListener("mousemove", (event) => {
+      const x = event.clientX;
+      const y = event.clientY;
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      if (x < width / 2 && y < height / 2) {
+        document.body.style.backgroundColor = "lightcoral";
+      } 
+      else if (x >= width / 2 && y < height / 2) {
+        document.body.style.backgroundColor = "lightblue";
+      } 
+      else if (x < width / 2 && y >= height / 2) {
+        document.body.style.backgroundColor = "lightgreen";
+      } 
+      else {
+        document.body.style.backgroundColor = "khaki";
+      }
+    });
+  </script>
+</body>
+</html>
