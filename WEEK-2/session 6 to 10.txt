@@ -1,0 +1,595 @@
+MariaDB [(none)]> CREATE DATABASE SCHOOL;
+Query OK, 1 row affected (0.002 sec)
+
+MariaDB [(none)]> USE SCHOOL;
+Database changed
+MariaDB [SCHOOL]> CREATE TABLE students (
+    ->     id INT PRIMARY KEY,
+    ->     name VARCHAR(100),
+    ->     email VARCHAR(100),
+    ->     phone VARCHAR(15),
+    ->     department VARCHAR(50)
+    -> );
+Query OK, 0 rows affected (0.011 sec)
+
+MariaDB [SCHOOL]> CREATE TABLE course (
+    ->     course_code VARCHAR(10) PRIMARY KEY,
+    ->     course_name VARCHAR(100),
+    ->     faculty_id INT,
+    ->     student_id INT,
+    ->     faculty_email VARCHAR(100),
+    ->     FOREIGN KEY (student_id) REFERENCES students(id)
+    -> );
+Query OK, 0 rows affected (0.044 sec)
+
+MariaDB [SCHOOL]> INSERT INTO students VALUES
+    -> (1,'Yamini','yamini3366@gmail.com','8688080364','CSE'),
+    -> (2,'SaiKrishna','saikrishnapathi515@gmail.com','8688468615','CSE'),
+    -> (3,'Harshini','harshini15@gmail.com','8673265615','ECE'),
+    -> (4,'Bhumika','bhoomika715@gmail.com','8673254455','EEE'),
+    -> (5,'Sindhu','sindhu88@gmail.com','7245455865','IT');
+Query OK, 5 rows affected (0.071 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [SCHOOL]> INSERT INTO course VALUES
+    -> ('CS101','OPERATING SYSTEM',101,1,'prof_smith@vtu.edu'),
+    -> ('CS102','WEB AND MOBILE APPLICATION DEVELOPMENT',102,2,'prof_jones@vtu.edu'),
+    -> ('CS103','DATABASE MANAGEMENT',101,3,'prof_smith@vtu.edu'),
+    -> ('EC301','DIGITAL ELECTRONICS',103,4,'prof_kumar@vtu.edu'),
+    -> ('CS201','DATA STRUCTURES',104,5,'prof_leila@vtu.edu');
+Query OK, 5 rows affected (0.011 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [SCHOOL]> SELECT * FROM students;
++----+------------+------------------------------+------------+------------+
+| id | name       | email                        | phone      | department |
++----+------------+------------------------------+------------+------------+
+|  1 | Yamini     | yamini3366@gmail.com         | 8688080364 | CSE        |
+|  2 | SaiKrishna | saikrishnapathi515@gmail.com | 8688468615 | CSE        |
+|  3 | Harshini   | harshini15@gmail.com         | 8673265615 | ECE        |
+|  4 | Bhumika    | bhoomika715@gmail.com        | 8673254455 | EEE        |
+|  5 | Sindhu     | sindhu88@gmail.com           | 7245455865 | IT         |
++----+------------+------------------------------+------------+------------+
+5 rows in set (0.002 sec)
+
+MariaDB [SCHOOL]> SELECT * FROM course;
++-------------+----------------------------------------+------------+------------+--------------------+
+| course_code | course_name                            | faculty_id | student_id | faculty_email      |
++-------------+----------------------------------------+------------+------------+--------------------+
+| CS101       | OPERATING SYSTEM                       |        101 |          1 | prof_smith@vtu.edu |
+| CS102       | WEB AND MOBILE APPLICATION DEVELOPMENT |        102 |          2 | prof_jones@vtu.edu |
+| CS103       | DATABASE MANAGEMENT                    |        101 |          3 | prof_smith@vtu.edu |
+| CS201       | DATA STRUCTURES                        |        104 |          5 | prof_leila@vtu.edu |
+| EC301       | DIGITAL ELECTRONICS                    |        103 |          4 | prof_kumar@vtu.edu |
++-------------+----------------------------------------+------------+------------+--------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [SCHOOL]> SELECT s.id, s.name, c.course_name, c.faculty_email
+    -> FROM students s
+    -> INNER JOIN course c ON s.id = c.student_id;
++----+------------+----------------------------------------+--------------------+
+| id | name       | course_name                            | faculty_email      |
++----+------------+----------------------------------------+--------------------+
+|  1 | Yamini     | OPERATING SYSTEM                       | prof_smith@vtu.edu |
+|  2 | SaiKrishna | WEB AND MOBILE APPLICATION DEVELOPMENT | prof_jones@vtu.edu |
+|  3 | Harshini   | DATABASE MANAGEMENT                    | prof_smith@vtu.edu |
+|  5 | Sindhu     | DATA STRUCTURES                        | prof_leila@vtu.edu |
+|  4 | Bhumika    | DIGITAL ELECTRONICS                    | prof_kumar@vtu.edu |
++----+------------+----------------------------------------+--------------------+
+5 rows in set (0.001 sec)
+
+MariaDB [SCHOOL]> SELECT department, COUNT(*) AS total_students
+    -> FROM students
+    -> GROUP BY department;
++------------+----------------+
+| department | total_students |
++------------+----------------+
+| CSE        |              2 |
+| ECE        |              1 |
+| EEE        |              1 |
+| IT         |              1 |
++------------+----------------+
+4 rows in set (0.001 sec)
+
+MariaDB [SCHOOL]> SELECT c.Course_name, COUNT(s.id) AS Total_Students
+    -> FROM students s
+    -> INNER JOIN Course c ON s.id = c.Student_ID
+    -> GROUP BY c.Course_name;
++----------------------------------------+----------------+
+| Course_name                            | Total_Students |
++----------------------------------------+----------------+
+| DATA STRUCTURES                        |              1 |
+| DATABASE MANAGEMENT                    |              1 |
+| DIGITAL ELECTRONICS                    |              1 |
+| OPERATING SYSTEM                       |              1 |
+| WEB AND MOBILE APPLICATION DEVELOPMENT |              1 |
++----------------------------------------+----------------+
+5 rows in set (0.001 sec)
+
+MariaDB [SCHOOL]> CREATE TABLE Faculty_Courses (
+    ->     Faculty_id INT,
+    ->     Faculty_email VARCHAR(100),
+    ->     Course_code VARCHAR(100),
+    ->     Course_name VARCHAR(100)
+    -> );
+Query OK, 0 rows affected (0.017 sec)
+
+MariaDB [SCHOOL]> INSERT INTO Faculty_Courses (Faculty_id, Faculty_email, Course_code, Course_name)
+    -> SELECT Faculty_id, Faculty_email, Course_code, Course_name
+    -> FROM Course;
+Query OK, 5 rows affected (0.005 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+MariaDB [SCHOOL]> UPDATE students
+    -> SET Phone = CONCAT('+91', Phone)
+    -> WHERE Department = 'CSE'
+    -> LIMIT 5;
+Query OK, 2 rows affected (0.010 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+MariaDB [SCHOOL]> START TRANSACTION;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> UPDATE students
+    -> SET email = 'updated_email@gmail.com'
+    -> WHERE id = 1;
+Query OK, 1 row affected (0.007 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> COMMIT;
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [SCHOOL]> START TRANSACTION;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> UPDATE students
+    -> SET Department = 'AI'
+    -> WHERE id = 2;
+Query OK, 1 row affected (0.007 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> SAVEPOINT sp1;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> UPDATE students
+    -> SET Department = 'DS'
+    -> WHERE id = 3;
+Query OK, 1 row affected (0.000 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> ROLLBACK TO sp1;
+Query OK, 0 rows affected (0.000 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> COMMIT;
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> CREATE FUNCTION add_numbers(a INT, b INT)
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     RETURN a + b;
+    -> END //
+Query OK, 0 rows affected (0.035 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> SELECT add_numbers(10, 20) AS Result;
++--------+
+| Result |
++--------+
+|     30 |
++--------+
+1 row in set (0.001 sec)
+
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> CREATE FUNCTION get_student_count(dept VARCHAR(50))
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     DECLARE total INT;
+    ->     SELECT COUNT(*) INTO total
+    ->     FROM students
+    ->     WHERE Department = dept;
+    ->     RETURN total;
+    -> END //
+Query OK, 0 rows affected (0.004 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> SELECT get_student_count('CSE') AS Total_Students;
++----------------+
+| Total_Students |
++----------------+
+|              1 |
++----------------+
+1 row in set (0.001 sec)
+
+MariaDB [SCHOOL]> START TRANSACTION;
+Query OK, 0 rows affected (0.001 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> UPDATE students
+    -> SET phone = CONCAT('+91', phone)
+    -> WHERE department = 'CSE';
+Query OK, 1 row affected, 1 warning (0.008 sec)
+Rows matched: 1  Changed: 1  Warnings: 1
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> COMMIT;
+Query OK, 0 rows affected (0.002 sec)
+
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> CREATE FUNCTION add_numbers(a INT, b INT)
+    -> RETURNS INT
+    -> DETERMINISTIC
+    -> BEGIN
+    ->     RETURN a + b;
+    -> END //
+ERROR 1304 (42000): FUNCTION add_numbers already exists
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> SELECT add_numbers(5, 10);
++--------------------+
+| add_numbers(5, 10) |
++--------------------+
+|                 15 |
++--------------------+
+1 row in set (0.001 sec)
+
+MariaDB [SCHOOL]> CREATE TABLE driver (
+    ->     driver_id INT,
+    ->     otp INT
+    -> );
+Query OK, 0 rows affected (0.018 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]> CREATE TRIGGER check_otp
+    -> BEFORE INSERT ON driver
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.otp IS NULL THEN
+    ->         SIGNAL SQLSTATE '45000'
+    ->         SET MESSAGE_TEXT = 'OTP is required for entry';
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> CREATE TABLE orders (
+    ->     order_id INT PRIMARY KEY,
+    ->     total_price INT DEFAULT 0
+    -> );
+Query OK, 0 rows affected (0.019 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> CREATE TABLE order_items (
+    ->     order_id INT,
+    ->     price INT
+    -> );
+Query OK, 0 rows affected (0.011 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]> CREATE TRIGGER update_order_total
+    -> AFTER INSERT ON order_items
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     UPDATE orders
+    ->     SET total_price = total_price + NEW.price
+    ->     WHERE order_id = NEW.order_id;
+    -> END //
+Query OK, 0 rows affected (0.009 sec)
+
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> CREATE TABLE activity_log (
+    ->     message VARCHAR(100),
+    ->     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    -> );
+Query OK, 0 rows affected (0.017 sec)
+
+MariaDB [SCHOOL]> CREATE TABLE employee (
+    ->     emp_id INT,
+    ->     salary INT
+    -> );
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]> CREATE TRIGGER prevent_negative_salary
+    -> BEFORE INSERT ON employee
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.salary < 0 THEN
+    ->         SIGNAL SQLSTATE '45000'
+    ->         SET MESSAGE_TEXT = 'Salary cannot be negative';
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.011 sec)
+
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> CREATE TABLE employee_audit (
+    ->     emp_id INT,
+    ->     old_salary INT,
+    ->     changed_at TIMESTAMP
+    -> );
+Query OK, 0 rows affected (0.018 sec)
+
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]> CREATE TRIGGER audit_employee_update
+    -> BEFORE UPDATE ON employee
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO employee_audit
+    ->     VALUES (OLD.emp_id, OLD.salary, NOW());
+    -> END //
+Query OK, 0 rows affected (0.011 sec)
+
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> INSERT INTO driver VALUES (1, NULL);
+ERROR 1644 (45000): OTP is required for entry
+MariaDB [SCHOOL]> CREATE TABLE driver (
+    ->     driver_id INT,
+    ->     otp INT
+    -> );
+ERROR 1050 (42S01): Table 'driver' already exists
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]> CREATE TRIGGER check_otp
+    -> BEFORE INSERT ON driver
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.otp IS NULL THEN
+    ->         SIGNAL SQLSTATE '45000'
+    ->         SET MESSAGE_TEXT = 'OTP is required';
+    ->     END IF;
+    -> END //
+ERROR 1359 (HY000): Trigger 'school.check_otp' already exists
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> INSERT INTO orders VALUES (101, 0);
+Query OK, 1 row affected (0.010 sec)
+
+MariaDB [SCHOOL]> INSERT INTO order_items VALUES (101, 250);
+Query OK, 1 row affected (0.004 sec)
+
+MariaDB [SCHOOL]> SELECT * FROM orders;
++----------+-------------+
+| order_id | total_price |
++----------+-------------+
+|      101 |         250 |
++----------+-------------+
+1 row in set (0.000 sec)
+
+MariaDB [SCHOOL]> INSERT INTO activity_log (message) VALUES ('Login successful');
+Query OK, 1 row affected (0.010 sec)
+
+MariaDB [SCHOOL]> SELECT * FROM activity_log;
++------------------+---------------------+
+| message          | created_at          |
++------------------+---------------------+
+| Login successful | 2026-02-09 12:27:57 |
++------------------+---------------------+
+1 row in set (0.000 sec)
+
+MariaDB [SCHOOL]> CREATE TABLE employee (
+    ->     emp_id INT,
+    ->     salary INT
+    -> );
+ERROR 1050 (42S01): Table 'employee' already exists
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]> CREATE TRIGGER check_salary
+    -> BEFORE INSERT ON employee
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     IF NEW.salary < 0 THEN
+    ->         SIGNAL SQLSTATE '45000'
+    ->         SET MESSAGE_TEXT = 'Salary cannot be negative';
+    ->     END IF;
+    -> END //
+Query OK, 0 rows affected (0.017 sec)
+
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> INSERT INTO employee VALUES (1, -5000);
+ERROR 1644 (45000): Salary cannot be negative
+MariaDB [SCHOOL]> CREATE TABLE employee_audit (
+    ->     emp_id INT,
+    ->     old_salary INT,
+    ->     changed_at TIMESTAMP
+    -> );
+ERROR 1050 (42S01): Table 'employee_audit' already exists
+MariaDB [SCHOOL]>
+MariaDB [SCHOOL]> DELIMITER //
+MariaDB [SCHOOL]> CREATE TRIGGER audit_employee
+    -> BEFORE UPDATE ON employee
+    -> FOR EACH ROW
+    -> BEGIN
+    ->     INSERT INTO employee_audit
+    ->     VALUES (OLD.emp_id, OLD.salary, NOW());
+    -> END //
+Query OK, 0 rows affected (0.015 sec)
+
+MariaDB [SCHOOL]> DELIMITER ;
+MariaDB [SCHOOL]> INSERT INTO employee VALUES (1, 20000);
+Query OK, 1 row affected (0.008 sec)
+
+MariaDB [SCHOOL]> UPDATE employee SET salary = 25000 WHERE emp_id = 1;
+Query OK, 1 row affected (0.004 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+MariaDB [SCHOOL]> SELECT * FROM employee_audit;
++--------+------------+---------------------+
+| emp_id | old_salary | changed_at          |
++--------+------------+---------------------+
+|      1 |      20000 | 2026-02-09 12:28:38 |
+|      1 |      20000 | 2026-02-09 12:28:38 |
++--------+------------+---------------------+
+2 rows in set (0.001 sec)
+
+MariaDB [SCHOOL]> SELECT DATEDIFF('2025-08-30','2025-08-01') AS days;
++------+
+| days |
++------+
+|   29 |
++------+
+1 row in set (0.000 sec)
+
+MariaDB [SCHOOL]> SELECT DATE_ADD(CURDATE(), INTERVAL 30 DAY);
++--------------------------------------+
+| DATE_ADD(CURDATE(), INTERVAL 30 DAY) |
++--------------------------------------+
+| 2026-03-11                           |
++--------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [SCHOOL]> SELECT DATE_SUB(CURDATE(), INTERVAL 7 DAY);
++-------------------------------------+
+| DATE_SUB(CURDATE(), INTERVAL 7 DAY) |
++-------------------------------------+
+| 2026-02-02                          |
++-------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [SCHOOL]> SELECT * FROM activity_log
+    -> WHERE DAYOFWEEK(created_at) IN (1,7);
+Empty set (0.001 sec)
+
+MariaDB [SCHOOL]> SELECT MONTHNAME(STR_TO_DATE('15-08-2025','%d-%m-%Y'));
++-------------------------------------------------+
+| MONTHNAME(STR_TO_DATE('15-08-2025','%d-%m-%Y')) |
++-------------------------------------------------+
+| August                                          |
++-------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [SCHOOL]> CREATE INDEX idx_email ON students(email);
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [SCHOOL]> CREATE UNIQUE INDEX idx_username ON users(username);
+ERROR 1146 (42S02): Table 'school.users' doesn't exist
+MariaDB [SCHOOL]> DROP INDEX idx_email ON students;
+Query OK, 0 rows affected (0.017 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [SCHOOL]> CREATE INDEX idx_aadhar ON users(aadhar);
+ERROR 1146 (42S02): Table 'school.users' doesn't exist
+MariaDB [SCHOOL]> CREATE TABLE users (
+    ->     user_id INT PRIMARY KEY,
+    ->     username VARCHAR(50),
+    ->     email VARCHAR(100),
+    ->     aadhar VARCHAR(12)
+    -> );
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [SCHOOL]> CREATE INDEX idx_aadhar ON users(aadhar);
+Query OK, 0 rows affected (0.020 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+MariaDB [SCHOOL]> SHOW INDEX FROM users;
++-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| Table | Non_unique | Key_name   | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment |
++-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+| users |          0 | PRIMARY    |            1 | user_id     | A         |           0 |     NULL | NULL   |      | BTREE      |         |               |
+| users |          1 | idx_aadhar |            1 | aadhar      | A         |           0 |     NULL | NULL   | YES  | BTREE      |         |               |
++-------+------------+------------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+
+2 rows in set (0.001 sec)
+
+MariaDB [SCHOOL]> SELECT CONCAT(SUBSTRING_INDEX(email,'@',1),'123') FROM users;
+Empty set (0.001 sec)
+
+MariaDB [SCHOOL]> SELECT REGEXP_REPLACE('987-654 3210','[^0-9]','');
++--------------------------------------------+
+| REGEXP_REPLACE('987-654 3210','[^0-9]','') |
++--------------------------------------------+
+| 9876543210                                 |
++--------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [SCHOOL]> SELECT CONCAT(UPPER(LEFT('yAMINI',1)), LOWER(SUBSTRING('yAMINI',2)));
++---------------------------------------------------------------+
+| CONCAT(UPPER(LEFT('yAMINI',1)), LOWER(SUBSTRING('yAMINI',2))) |
++---------------------------------------------------------------+
+| Yamini                                                        |
++---------------------------------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [SCHOOL]> SELECT COALESCE(NULL, NULL, 'mail@gmail.com');
++----------------------------------------+
+| COALESCE(NULL, NULL, 'mail@gmail.com') |
++----------------------------------------+
+| mail@gmail.com                         |
++----------------------------------------+
+1 row in set (0.000 sec)
+
+MariaDB [SCHOOL]> SELECT department,
+    -> AVG(TIMESTAMPDIFF(YEAR, join_date, CURDATE()))
+    -> FROM employee
+    -> GROUP BY department;
+ERROR 1054 (42S22): Unknown column 'department' in 'field list'
+MariaDB [SCHOOL]> CREATE TABLE employee (
+    ->     emp_id INT,
+    ->     salary INT
+    -> );
+ERROR 1050 (42S01): Table 'employee' already exists
+MariaDB [SCHOOL]> DROP TABLE employee;
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [SCHOOL]> CREATE TABLE employee (
+    ->     emp_id INT,
+    ->     name VARCHAR(50),
+    ->     department VARCHAR(50),
+    ->     join_date DATE,
+    ->     salary INT
+    -> );
+Query OK, 0 rows affected (0.016 sec)
+
+MariaDB [SCHOOL]> INSERT INTO employee VALUES
+    -> (1,'Yamini','CSE','2019-06-10',50000),
+    -> (2,'Sai','CSE','2020-08-15',45000),
+    -> (3,'Harshini','ECE','2018-07-01',55000),
+    -> (4,'Bhumika','EEE','2021-01-20',40000);
+Query OK, 4 rows affected (0.009 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+MariaDB [SCHOOL]> SELECT department,
+    -> AVG(TIMESTAMPDIFF(YEAR, join_date, CURDATE())) AS avg_experience
+    -> FROM employee
+    -> GROUP BY department;
++------------+----------------+
+| department | avg_experience |
++------------+----------------+
+| CSE        |         5.5000 |
+| ECE        |         7.0000 |
+| EEE        |         5.0000 |
++------------+----------------+
+3 rows in set (0.001 sec)
+
+MariaDB [SCHOOL]> SELECT department,
+    -> AVG(TIMESTAMPDIFF(YEAR, join_date, CURDATE()))
+    -> FROM employee
+    -> GROUP BY department;
++------------+------------------------------------------------+
+| department | AVG(TIMESTAMPDIFF(YEAR, join_date, CURDATE())) |
++------------+------------------------------------------------+
+| CSE        |                                         5.5000 |
+| ECE        |                                         7.0000 |
+| EEE        |                                         5.0000 |
++------------+------------------------------------------------+
+3 rows in set (0.001 sec)
+
+MariaDB [SCHOOL]> SELECT net_salary(50000);
+ERROR 1305 (42000): FUNCTION school.net_salary does not exist
+MariaDB [SCHOOL]>
